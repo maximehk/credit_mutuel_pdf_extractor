@@ -1,0 +1,9 @@
+account_mapping:
+  123456789: "Main Checking"
+  987654321: "Savings Account"
+  555666777: "Credit Card"
+
+google_sheets:
+  spreadsheet_id: "YOUR_SPREADSHEET_ID_HERE"
+  sheet_name: "Transactions"
+  credentials_file: "credentials.json"

@@ -1,0 +1,29 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+# Bank Statement Data and secrets
+data/
+secrets/
+*.pdf
+*.zip
+
+# Extracted Data
+*.json
+*.csv
+
+# Validation and Debug Outputs
+transactions.json
+logging_output.txt
+
+# Configuration
+config.yaml
+credentials.json
+.DS_Store

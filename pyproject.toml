@@ -1,0 +1,12 @@
+[project]
+name = "credit_mutual_pdf_extractor"
+version = "0.1.0"
+description = "Extract bank transactions from Crédit Mutuel PDF statements"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "pandas>=3.0.1",
+    "pdfplumber>=0.11.9",
+    "PyYAML>=6.0.1",
+    "gspread>=6.1.4",
+]
