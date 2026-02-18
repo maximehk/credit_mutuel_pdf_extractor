@@ -23,9 +23,11 @@ def main():
     parser.add_argument('-o', '--output', required=True, help='Output filename (must end in .csv or .json)')
     parser.add_argument('-c', '--config', help='Path to YAML config file for account mapping')
     parser.add_argument('--gsheet', action='store_true', help='Export to Google Spreadsheet (requires google_sheets config)')
+    parser.add_argument('--include-source-file', action='store_true', help='Include the SourceFile column in the output')
     args = parser.parse_args()
 
     account_mapping = {}
+    description_mapping = {}
     gsheet_config = None
     if args.config:
         if not os.path.exists(args.config):
@@ -39,6 +41,10 @@ def main():
                     # Store as int keys for easier matching
                     account_mapping = {int(k): v for k, v in config_data['account_mapping'].items()}
                     logger.info(f"Loaded {len(account_mapping)} account mappings from {args.config}")
+                
+                if 'description_mapping' in config_data:
+                    description_mapping = config_data['description_mapping']
+                    logger.info(f"Loaded {len(description_mapping)} description mappings from {args.config}")
                 
                 if 'google_sheets' in config_data:
                     gsheet_config = config_data['google_sheets']
@@ -142,13 +148,23 @@ def main():
 
                             desc = str(row[desc_idx]).replace('\n', ' ').strip() if desc_idx < len(row) else ""
                             
+                            # Apply description mapping (Simple String)
+                            final_desc = desc
+                            for pattern, label in description_mapping.items():
+                                if pattern.upper() in desc.upper():
+                                    final_desc = label
+                                    break
+
                             tx = {
                                 "Account": display_account,
                                 "Date": format_date(date_str),
                                 "Description": desc,
+                                "Comment": final_desc if final_desc != desc else "",
                                 "Amount": round(amount, 2),
-                                "SourceFile": basename
                             }
+                            if args.include_source_file:
+                                tx["SourceFile"] = basename
+                            
                             all_transactions.append(tx)
                             account_validation[current_account]["tx_total"] += amount
 
@@ -263,11 +279,13 @@ def export_to_gsheet(df, config):
         # We use a subset of columns that define a unique transaction
         # SourceFile is excluded as the same transaction might appear in different files (e.g. overlap in statements)
         dedup_cols = ['Account', 'Date', 'Description', 'Amount']
-        df_combined = df_combined.drop_duplicates(subset=dedup_cols, keep='first')
+        # keep='last' ensures that if the same transaction exists in the sheet and new data,
+        # the new data (with updated comments/mappings) replaces the old one.
+        df_combined = df_combined.drop_duplicates(subset=dedup_cols, keep='last')
         
         # Always sort final combined data by Date and Account
         if 'Date' in df_combined.columns:
-            df_combined = df_combined.sort_values(by=['Date', 'Account'], ascending=[True, True])
+            df_combined = df_combined.sort_values(by=['Date', 'Account'], ascending=[True , True])
 
         final_count = len(df_combined)
         logger.info(f"Merged and deduplicated: {initial_count} -> {final_count} transactions.")

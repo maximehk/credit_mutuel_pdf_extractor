@@ -57,6 +57,16 @@ account_mapping:
 > [!NOTE]
 > Account numbers are matched as integers (leading zeros are ignored).
 
+#### Description Mapping
+You can automatically rename transactions by adding a `description_mapping` section. If any key is found as a **substring** (case-insensitive) in the transaction description, it will be replaced by the corresponding label.
+
+```yaml
+description_mapping:
+  "VIR SEPA FROM": "Transfer"
+  "NETFLIX": "Entertainment"
+  "AMAZON": "Shopping"
+```
+
 #### Google Sheets Export
 To enable Google Sheets export, add a `google_sheets` section to your `config.yaml`:
 
@@ -80,7 +90,7 @@ google_sheets:
 You can explicitly specify files, the output format, and enable Google Sheets export:
 
 ```bash
-uv run main.py data/*.pdf --output results.csv --config config.yaml --gsheet
+uv run main.py data/*.pdf --output results.csv --config config.yaml --gsheet --include-source-file
 ```
 
 **Requirements:**
