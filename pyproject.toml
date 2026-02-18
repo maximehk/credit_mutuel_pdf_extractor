@@ -2,11 +2,31 @@
 name = "credit_mutual_pdf_extractor"
 version = "0.1.0"
 description = "Extract bank transactions from Crédit Mutuel PDF statements"
+authors = [
+    { name = "Max"}
+]
+license = { text = "MIT" }
 readme = "README.md"
 requires-python = ">=3.11"
+keywords = ["credit-mutuel", "pdf", "bank", "extractor", "google-sheets"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
 dependencies = [
-    "pandas>=3.0.1",
+    "pandas>=2.0.0",
     "pdfplumber>=0.11.9",
     "PyYAML>=6.0.1",
     "gspread>=6.1.4",
 ]
+
+[project.scripts]
+credit-mutual-extractor = "credit_mutual_pdf_extractor.main:main"
+
+[project.urls]
+Homepage = "https://github.com/maximehk/credit_mutual_pdf_extractor"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

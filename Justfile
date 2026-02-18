@@ -13,3 +13,11 @@ gsheet format="csv":
 # Clean all generated files
 clean:
     rm -f *.csv *.json *.txt
+
+# Build the package
+build:
+    uv build
+
+# Publish to PyPI
+publish: build
+    uv publish

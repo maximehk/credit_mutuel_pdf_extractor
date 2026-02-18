@@ -1,5 +1,7 @@
 # Crédit Mutuel PDF Extractor
 
+[![PyPI version](https://img.shields.io/pypi/v/credit_mutual_pdf_extractor.svg)](https://pypi.org/project/credit_mutual_pdf_extractor/)
+
 A robust Python utility to extract transaction data from Crédit Mutuel bank statement PDFs, validate data integrity, and export to structured formats (JSON/CSV).
 
 ## Features
@@ -15,15 +17,29 @@ A robust Python utility to extract transaction data from Crédit Mutuel bank sta
 
 ## Installation
 
-Ensure you have [uv](https://github.com/astral-sh/uv) installed.
+You can install the extractor directly from PyPI:
 
 ```bash
-uv sync
+pip install credit_mutual_pdf_extractor
+```
+
+Or using [uv](https://github.com/astral-sh/uv):
+
+```bash
+uv tool install credit_mutual_pdf_extractor
 ```
 
 ## Usage
 
-### Using Just (Recommended)
+### Global Command
+Once installed, you can use the `credit-mutual-extractor` command from anywhere:
+
+```bash
+credit-mutual-extractor data/*.pdf --output results.csv --config config.yaml
+```
+
+### Using Just (Development)
+If you have the source code and [just](https://github.com/casey/just) installed:
 
 To process all PDFs in the `data/` directory using the labels defined in `config.yaml` (outputs to `transactions.csv`):
 
