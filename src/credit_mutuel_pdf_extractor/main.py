@@ -1,12 +1,12 @@
+import gspread
 import pdfplumber
 import pandas as pd
-import glob
 import os
-import json
 import logging
 import yaml
 import gspread
-from utils import parse_amount, find_account_headers, format_date
+import argparse
+from .utils import parse_amount, find_account_headers, format_date
 
 # Configure logging
 logging.basicConfig(
@@ -16,15 +16,22 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 def main():
-    import argparse
     parser = argparse.ArgumentParser(description='Extract bank transactions from Crédit Mutuel PDF statements.')
 
     parser.add_argument('files', nargs='+', help='PDF files to process')
-    parser.add_argument('-o', '--output', required=True, help='Output filename (must end in .csv or .json)')
+    parser.add_argument('-o', '--output', help='Output filename (must end in .csv or .json)')
     parser.add_argument('-c', '--config', help='Path to YAML config file for account mapping')
     parser.add_argument('--gsheet', action='store_true', help='Export to Google Spreadsheet (requires google_sheets config)')
     parser.add_argument('--include-source-file', action='store_true', help='Include the SourceFile column in the output')
     args = parser.parse_args()
+    
+    # Early validation of output format and requirement
+    if not args.output and not args.gsheet:
+        parser.error("The following arguments are required: -o/--output (unless --gsheet is used)")
+        
+    if args.output:
+        if not (args.output.endswith('.csv') or args.output.endswith('.json')):
+            parser.error(f"Output file must end in .csv or .json (got: {args.output})")
 
     account_mapping = {}
     description_mapping = {}
@@ -209,14 +216,10 @@ def main():
         if args.output:
             if args.output.endswith('.json'):
                 outputs.append(('json', args.output))
-            elif args.output.endswith('.csv'):
-                outputs.append(('csv', args.output))
             else:
-                logger.critical(f"Output file must end in .json or .csv (got: {args.output})")
-                import sys
-                sys.exit(1)
-        else:
-            # Default to both if no output specified
+                outputs.append(('csv', args.output))
+        elif not args.gsheet:
+            # Default to both if no output and no gsheet specified
             outputs = [('json', 'transactions.json'), ('csv', 'transactions.csv')]
 
         for fmt, path in outputs:

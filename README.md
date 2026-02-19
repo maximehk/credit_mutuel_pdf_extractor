@@ -1,8 +1,8 @@
 # Crédit Mutuel PDF Extractor
 
-[![PyPI version](https://img.shields.io/pypi/v/credit_mutual_pdf_extractor.svg)](https://pypi.org/project/credit_mutual_pdf_extractor/)
+[![PyPI version](https://img.shields.io/pypi/v/credit_mutuel_pdf_extractor.svg)](https://pypi.org/project/credit_mutuel_pdf_extractor/)
 
-A robust Python utility to extract transaction data from Crédit Mutuel bank statement PDFs, validate data integrity, and export to structured formats (JSON/CSV).
+A robust Python utility to extract transaction data from Crédit Mutuel bank statement PDFs, validate data integrity, and export to structured formats (JSON/CSV) or Google Sheets.
 
 ## Features
 
@@ -20,22 +20,22 @@ A robust Python utility to extract transaction data from Crédit Mutuel bank sta
 You can install the extractor directly from PyPI:
 
 ```bash
-pip install credit_mutual_pdf_extractor
+pip install credit_mutuel_pdf_extractor
 ```
 
 Or using [uv](https://github.com/astral-sh/uv):
 
 ```bash
-uv tool install credit_mutual_pdf_extractor
+uv tool install credit_mutuel_pdf_extractor
 ```
 
 ## Usage
 
 ### Global Command
-Once installed, you can use the `credit-mutual-extractor` command from anywhere:
+Once installed, you can use the `cmut_process_pdf` command from anywhere:
 
 ```bash
-credit-mutual-extractor data/*.pdf --output results.csv --config config.yaml
+cmut_process_pdf data/*.pdf --output results.csv --config config.yaml
 ```
 
 ### Using Just (Development)
@@ -106,7 +106,7 @@ google_sheets:
 You can explicitly specify files, the output format, and enable Google Sheets export:
 
 ```bash
-uv run main.py data/*.pdf --output results.csv --config config.yaml --gsheet --include-source-file
+uv run credit-mutuel-extractor data/*.pdf --output results.csv --config config.yaml --gsheet --include-source-file
 ```
 
 **Requirements:**

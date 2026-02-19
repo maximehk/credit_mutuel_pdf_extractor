@@ -163,9 +163,9 @@ wheels = [
 ]
 
 [[package]]
-name = "credit-mutual-pdf-extractor"
+name = "credit-mutuel-pdf-extractor"
 version = "0.1.0"
-source = { virtual = "." }
+source = { editable = "." }
 dependencies = [
     { name = "gspread" },
     { name = "pandas" },
@@ -176,7 +176,7 @@ dependencies = [
 [package.metadata]
 requires-dist = [
     { name = "gspread", specifier = ">=6.1.4" },
-    { name = "pandas", specifier = ">=3.0.1" },
+    { name = "pandas", specifier = ">=2.0.0" },
     { name = "pdfplumber", specifier = ">=0.11.9" },
     { name = "pyyaml", specifier = ">=6.0.1" },
 ]

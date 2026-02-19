@@ -1,5 +1,5 @@
 [project]
-name = "credit_mutual_pdf_extractor"
+name = "credit_mutuel_pdf_extractor"
 version = "0.1.0"
 description = "Extract bank transactions from Crédit Mutuel PDF statements"
 authors = [
@@ -22,11 +22,14 @@ dependencies = [
 ]
 
 [project.scripts]
-credit-mutual-extractor = "credit_mutual_pdf_extractor.main:main"
+cmut_process_pdf = "credit_mutuel_pdf_extractor.main:main"
 
 [project.urls]
-Homepage = "https://github.com/maximehk/credit_mutual_pdf_extractor"
+Homepage = "https://github.com/maximehk/credit_mutuel_pdf_extractor"
 
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
+
+[tool.uv.workspace]
+members = []

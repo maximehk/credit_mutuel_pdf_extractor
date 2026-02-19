@@ -18,12 +18,11 @@ secrets/
 # Extracted Data
 *.json
 *.csv
-
-# Validation and Debug Outputs
-transactions.json
-logging_output.txt
+*.txt
 
 # Configuration
 config.yaml
 credentials.json
+
+# Miscellaneous
 .DS_Store
