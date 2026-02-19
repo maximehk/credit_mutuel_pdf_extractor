@@ -141,3 +141,22 @@ Publishing is automated via the `Justfile` and integrated with **1Password** for
     just publish
     ```
     This uses `op run` to securely inject the token into the `uv publish` command without it ever being stored in plain text or history.
+
+### Encrypted Configuration
+Keep your `config.yaml` and `secrets/credentials.json` synced across machines using 1Password:
+
+1.  **Initial Setup**: Create the documents in your vault:
+    ```bash
+    just secrets-setup
+    ```
+2.  **Pull Changes**: On a new machine:
+    ```bash
+    just secrets-pull
+    ```
+3.  **Push Changes**: After updating your local config:
+    ```bash
+    just secrets-push
+    ```
+
+> [!NOTE]
+> These commands use the titles `"CMut Config"` and `"CMut Google Credentials"`. You can change these in the `Justfile` if needed.
