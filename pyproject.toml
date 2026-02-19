@@ -32,6 +32,7 @@ cmut_process_pdf = "credit_mutuel_pdf_extractor.main:main"
 
 [project.urls]
 Homepage = "https://github.com/maximehk/credit_mutuel_pdf_extractor"
+PyPI = "https://pypi.org/project/credit_mutuel_pdf_extractor/"
 
 [build-system]
 requires = ["hatchling"]

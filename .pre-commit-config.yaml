@@ -14,3 +14,13 @@ repos:
       - id: detect-secrets
         args: ['--baseline', '.secrets.baseline']
         exclude: package.lock
+
+  - repo: local
+    hooks:
+      - id: forbidden-mutual
+        name: Check for forbidden misspelling
+        entry: 'm[u]tual'
+        language: pygrep
+        args: ['-i']  # Case-insensitive
+        types: [text]
+        exclude: ^\.pre-commit-config\.yaml$

@@ -66,8 +66,8 @@ You can map account numbers to custom labels by creating a `config.yaml` file. S
 
 ```yaml
 account_mapping:
-  21945407: "Crequi"
-  21945409: "Prevost"
+  12345671: "Account 1"
+  12345672: "Account 2"
 ```
 
 > [!NOTE]
