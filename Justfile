@@ -31,6 +31,11 @@ publish: build
 install:
     uv tool install .
 
+# Uninstall the script locally
+[group('dev')]
+uninstall:
+    uv tool uninstall credit-mutuel-pdf-extractor
+
 # Run pre-commit checks on all files
 [group('dev')]
 check:

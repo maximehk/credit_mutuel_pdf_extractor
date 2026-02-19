@@ -106,7 +106,12 @@ google_sheets:
 You can explicitly specify files, the output format, and enable Google Sheets export:
 
 ```bash
-uv run credit-mutuel-extractor data/*.pdf --output results.csv --config config.yaml --gsheet --include-source-file
+uv run credit-mutuel-extractor data/*.pdf --output results.csv --config config.yaml
+```
+Or run it directly using `uvx`:
+
+```bash
+uvx --from credit-mutuel-pdf-extractor cmut_process_pdf data/*.pdf --output results.csv --config config.yaml --gsheet --include-source-file
 ```
 
 **Requirements:**
@@ -119,3 +124,20 @@ uv run credit-mutuel-extractor data/*.pdf --output results.csv --config config.y
 - **Data Normalization**: Amounts are cleaned and converted to standard floats.
 - **Validation**: If `Starting Balance + Σ(Transactions) != Ending Balance`, the script will report a `CRITICAL` error and halt execution.
 - **Modular Design**: Utility functions are separated into `utils.py` for maintainability.
+
+## Security & Publishing
+
+### Secret Leak Prevention
+This project uses `pre-commit` and `detect-secrets` to prevent accidental commits of sensitive data.
+Before committing, the hooks will scan for potential secrets.
+
+### Publishing to PyPI
+Publishing is automated via the `Justfile` and integrated with **1Password** for security.
+
+1.  **Store your PyPI Token**: Create a "Login" or "Password" item in 1Password.
+2.  **Add Environment Variable**: Add a field named `UV_PUBLISH_TOKEN` containing your PyPI API token.
+3.  **Publish**:
+    ```bash
+    just publish
+    ```
+    This uses `op run` to securely inject the token into the `uv publish` command without it ever being stored in plain text or history.
