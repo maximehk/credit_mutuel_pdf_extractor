@@ -30,3 +30,8 @@ publish: build
 [group('dev')]
 install:
     uv tool install .
+
+# Run pre-commit checks on all files
+[group('dev')]
+check:
+    uv run pre-commit run --all-files

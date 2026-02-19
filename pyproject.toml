@@ -21,6 +21,12 @@ dependencies = [
     "gspread>=6.1.4",
 ]
 
+[dependency-groups]
+dev = [
+    "pre-commit>=4.1.0",
+    "detect-secrets>=1.5.0",
+]
+
 [project.scripts]
 cmut_process_pdf = "credit_mutuel_pdf_extractor.main:main"
 

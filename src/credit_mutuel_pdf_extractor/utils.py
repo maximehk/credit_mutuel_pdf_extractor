@@ -4,7 +4,7 @@ import pandas as pd
 def parse_amount(amount_str):
     if not amount_str or pd.isna(amount_str):
         return 0.0
-    # Clean up French number formatting: 
+    # Clean up French number formatting:
     # 1. Remove thousands separator (dots)
     # 2. Replace decimal separator (comma) with dot
     # Example: "1.234,56" -> "1234.56"
@@ -20,12 +20,12 @@ def find_account_headers(page):
     text = page.extract_text()
     if not text:
         return []
-    
+
     # We'll use extract_words to get coordinates
     words = page.extract_words()
     # Pattern for account numbers: 11 digits or digits with dots
     acc_pattern = re.compile(r'\d{9,11}(\.\.\.)?')
-    
+
     for i, word in enumerate(words):
         if acc_pattern.search(word['text']):
             # Check if preceded by "N°" or "Nº"
@@ -43,7 +43,7 @@ def format_date(date_str):
     """
     if not date_str or not isinstance(date_str, str):
         return date_str
-    
+
     # Try to find DD/MM/YYYY or DD/MM/YY
     match = re.search(r'(\d{2})/(\d{2})/(\d{2,4})', date_str)
     if match:
@@ -51,5 +51,5 @@ def format_date(date_str):
         if len(year) == 2:
             year = "20" + year # Assume 20xx
         return f"{year}-{month}-{day}"
-    
+
     return date_str
