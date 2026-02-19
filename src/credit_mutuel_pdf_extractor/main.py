@@ -1,4 +1,3 @@
-import gspread
 import pdfplumber
 import pandas as pd
 import os
@@ -6,6 +5,7 @@ import logging
 import yaml
 import gspread
 import argparse
+import hashlib
 from .utils import parse_amount, find_account_headers, format_date
 
 # Configure logging
@@ -109,7 +109,12 @@ def main():
                             pass
 
                         if current_account not in account_validation:
-                            account_validation[current_account] = {"tx_total": 0.0, "balances": [], "tx_list": []}
+                            account_validation[current_account] = {
+                                "tx_total": 0.0,
+                                "balances": [],
+                                "tx_list": [],
+                                "local_index": 0
+                            }
 
                         table_data = t_obj.extract()
                         if not table_data: continue
@@ -162,12 +167,24 @@ def main():
                                     final_desc = label
                                     break
 
+                            # Get and increment local index
+                            l_idx = account_validation[current_account]["local_index"]
+                            account_validation[current_account]["local_index"] += 1
+
+                            date_iso = format_date(date_str)
+
+                            # UID: sha256 of Date, Account, Description (original), Amount, LocalIndex
+                            uid_payload = f"{date_iso}|{display_account}|{desc}|{amount:.2f}|{l_idx}"
+                            uid = hashlib.sha256(uid_payload.encode('utf-8')).hexdigest()
+
                             tx = {
                                 "Account": display_account,
-                                "Date": format_date(date_str),
+                                "Date": date_iso,
                                 "Description": desc,
                                 "Comment": final_desc if final_desc != desc else "",
                                 "Amount": round(amount, 2),
+                                "LocalIndex": l_idx,
+                                "UID": uid
                             }
                             if args.include_source_file:
                                 tx["SourceFile"] = basename
